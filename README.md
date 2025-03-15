@@ -34,6 +34,8 @@ Enter password as secret sauce.
 
 Click on Login and validate the title “Swag Labs” in the dashboard.
 
+<br>
+
 Provide parallel execution, add logging for tests and use Data Provider to parametrize tests.
 
 Make sure that all tasks are supported by these 3 conditions: UC-1; UC-2; UC-3.

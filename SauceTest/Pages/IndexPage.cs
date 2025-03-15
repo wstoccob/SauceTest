@@ -23,10 +23,9 @@ public class IndexPage
         }
     }
 
-    public IndexPage Open()
+    public void Open()
     {
         driver.Url = Url;
-        return this;
     }
 
     public void TypeLoginCredentials(string loginCredentials) => LoginInput.SendKeys(loginCredentials);
