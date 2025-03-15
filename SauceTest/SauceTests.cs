@@ -64,7 +64,6 @@ public class Tests
         page.Open();
         page.TypeLoginCredentials(loginCredentials);
         page.TypePasswordCredentials(VALID_PASSWORD_CREDENTIALS);
-        page.ClearPasswordInput();
         page.SubmitForm();
         var actualTitle = page.GetTitle();
         Assert.That(actualTitle, Is.EqualTo(EXPECTED_TITLE));
