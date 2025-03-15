@@ -31,6 +31,23 @@ public class Tests
         var actualError = page.GetError();
         Assert.That(actualError, Is.EqualTo(EXPECTED_ERROR));
     }
+    
+    [Test]
+    public void UC1_TestLoginForm_OnlyUsername()
+    {
+        const string RANDOM_LOGIN_CREDENTIALS = "123";
+        const string RANDOM_PASSWORD_CREDENTIALS = "123";
+        const string EXPECTED_ERROR = "Epic sadface: Password is required";
+        
+        var page = new IndexPage(driver);
+        page.Open();
+        page.TypeLoginCredentials(RANDOM_LOGIN_CREDENTIALS);
+        page.TypePasswordCredentials(RANDOM_PASSWORD_CREDENTIALS);
+        page.ClearPasswordInput();
+        page.SubmitForm();
+        var actualError = page.GetError();
+        Assert.That(actualError, Is.EqualTo(EXPECTED_ERROR));
+    }
 
     [TearDown]
     public void TearDown()
