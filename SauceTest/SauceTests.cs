@@ -48,10 +48,32 @@ public class Tests
         var actualError = page.GetError();
         Assert.That(actualError, Is.EqualTo(EXPECTED_ERROR));
     }
+    
+    [TestCase("standard_user")]
+    [TestCase("locked_out_user")]
+    [TestCase("problem_user")]
+    [TestCase("performance_glitch_user")]
+    [TestCase("error_user")]
+    [TestCase("visual_user")]
+    public void UC1_TestLoginForm_ValidCredentials(string loginCredentials)
+    {
+        const string VALID_PASSWORD_CREDENTIALS = "secret_sauce";
+        const string EXPECTED_TITLE = "Swag Labs";
+        
+        var page = new IndexPage(driver);
+        page.Open();
+        page.TypeLoginCredentials(loginCredentials);
+        page.TypePasswordCredentials(VALID_PASSWORD_CREDENTIALS);
+        page.ClearPasswordInput();
+        page.SubmitForm();
+        var actualTitle = page.GetTitle();
+        Assert.That(actualTitle, Is.EqualTo(EXPECTED_TITLE));
+    }
 
     [TearDown]
     public void TearDown()
     {
+        driver.Quit();
         driver.Dispose();
     }
 }

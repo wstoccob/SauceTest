@@ -50,4 +50,9 @@ public class IndexPage
         var errorElement = driver.FindElement(By.TagName("h3"));
         return errorElement.Text;
     }
+
+    public string GetTitle()
+    {
+        return driver.Title;
+    }
 }
