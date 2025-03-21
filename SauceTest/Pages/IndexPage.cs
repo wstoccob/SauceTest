@@ -1,13 +1,14 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 
 namespace SauceTest.Pages;
 
 public class IndexPage
 {
     private static string Url { get; } = "https://www.saucedemo.com/";
-    private readonly WebDriver driver;
+    private readonly IWebDriver driver;
 
-    public IndexPage(WebDriver driver) => this.driver = driver ?? throw new ArgumentNullException(nameof(driver));
+    public IndexPage(IWebDriver driver) => this.driver = driver ?? throw new ArgumentNullException(nameof(driver));
 
     private IWebElement LoginInput => driver.FindElement(By.Id("user-name"));
     private IWebElement PasswordInput => driver.FindElement(By.Id("password"));
@@ -17,9 +18,14 @@ public class IndexPage
     {
         get
         {
-            string? platform = driver.Capabilities.GetCapability("platformName") as string;
-            ArgumentNullException.ThrowIfNull(platform);
-            return platform.Contains("mac") ? Keys.Command : Keys.Control;
+            if (driver is RemoteWebDriver remoteDriver)
+            {
+                string? platform = remoteDriver.Capabilities.GetCapability("platformName") as string;
+                ArgumentNullException.ThrowIfNull(platform);
+                return platform.Contains("mac") ? Keys.Command : Keys.Control;
+            }
+        
+            return Keys.Control;
         }
     }
 
