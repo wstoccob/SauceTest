@@ -10,9 +10,9 @@ public class IndexPage
 
     public IndexPage(IWebDriver driver) => this.driver = driver ?? throw new ArgumentNullException(nameof(driver));
 
-    private IWebElement LoginInput => driver.FindElement(By.Id("user-name"));
-    private IWebElement PasswordInput => driver.FindElement(By.Id("password"));
-    private IWebElement SubmitButton => driver.FindElement(By.Id("login-button"));
+    private IWebElement LoginInput => driver.FindElement(By.CssSelector("#user-name"));
+    private IWebElement PasswordInput => driver.FindElement(By.CssSelector("#password"));
+    private IWebElement SubmitButton => driver.FindElement(By.CssSelector("#login-button"));
     
     private string ControlCommand
     {
@@ -60,4 +60,6 @@ public class IndexPage
     {
         return driver.Title;
     }
+
+    public void Close() => driver.Quit();
 }

@@ -1,3 +1,4 @@
+using OpenQA.Selenium;
 using SauceTest.Factories;
 using SauceTest.Pages;
 
@@ -8,7 +9,7 @@ namespace SauceTest;
 public class Tests
 {
     private DriverFactory _driverFactory;
-
+    
     [SetUp]
     public void Setup()
     {
@@ -17,15 +18,15 @@ public class Tests
 
     [TestCase("Chrome")]
     [TestCase("Edge")]
-    public void UC1_TestLoginForm_EmptyCredentials(string browserName)
+    public void UC1_TestLoginForm_EmptyCredentials_ReturnsLoginError(string browserName)
     {
-        var _driver = _driverFactory.CreateDriver(browserName);
+        var driver = _driverFactory.CreateDriver(browserName);
         
         const string RANDOM_LOGIN_CREDENTIALS = "123";
         const string RANDOM_PASSWORD_CREDENTIALS = "123";
         const string EXPECTED_ERROR = "Epic sadface: Username is required";
         
-        var page = new IndexPage(_driver);
+        var page = new IndexPage(driver);
         page.Open();
         page.TypeLoginCredentials(RANDOM_LOGIN_CREDENTIALS);
         page.TypePasswordCredentials(RANDOM_PASSWORD_CREDENTIALS);
@@ -35,20 +36,20 @@ public class Tests
         var actualError = page.GetError();
         Assert.That(actualError, Is.EqualTo(EXPECTED_ERROR));
         
-        _driver.Quit();
+        page.Close();
     }
     
     [TestCase("Chrome")]
     [TestCase("Edge")]
-    public void UC1_TestLoginForm_OnlyUsername(string browserName)
+    public void UC2_TestLoginForm_OnlyUsername_ReturnsPasswordError(string browserName)
     {
-        var _driver = _driverFactory.CreateDriver(browserName);
+        var driver = _driverFactory.CreateDriver(browserName);
         
         const string RANDOM_LOGIN_CREDENTIALS = "123";
         const string RANDOM_PASSWORD_CREDENTIALS = "123";
         const string EXPECTED_ERROR = "Epic sadface: Password is required";
         
-        var page = new IndexPage(_driver);
+        var page = new IndexPage(driver);
         page.Open();
         page.TypeLoginCredentials(RANDOM_LOGIN_CREDENTIALS);
         page.TypePasswordCredentials(RANDOM_PASSWORD_CREDENTIALS);
@@ -57,7 +58,7 @@ public class Tests
         var actualError = page.GetError();
         Assert.That(actualError, Is.EqualTo(EXPECTED_ERROR));
         
-        _driver.Quit();
+        page.Close();
     }
     
     [TestCase("standard_user", "Chrome")]
@@ -72,14 +73,14 @@ public class Tests
     [TestCase("performance_glitch_user", "Edge")]
     [TestCase("error_user", "Edge")]
     [TestCase("visual_user", "Edge")]
-    public void UC1_TestLoginForm_ValidCredentials(string loginCredentials, string browserName)
+    public void UC3_TestLoginForm_ValidCredentials_SuccessfulLogin(string loginCredentials, string browserName)
     {
-        var _driver = _driverFactory.CreateDriver(browserName);
+        var driver = _driverFactory.CreateDriver(browserName);
 
         const string VALID_PASSWORD_CREDENTIALS = "secret_sauce";
         const string EXPECTED_TITLE = "Swag Labs";
         
-        var page = new IndexPage(_driver);
+        var page = new IndexPage(driver);
         page.Open();
         page.TypeLoginCredentials(loginCredentials);
         page.TypePasswordCredentials(VALID_PASSWORD_CREDENTIALS);
@@ -87,6 +88,6 @@ public class Tests
         var actualTitle = page.GetTitle();
         Assert.That(actualTitle, Is.EqualTo(EXPECTED_TITLE));
         
-        _driver.Quit();
+        page.Close();
     }
 }
