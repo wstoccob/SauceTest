@@ -1,4 +1,6 @@
-﻿namespace SauceTest.Pages;
+﻿using OpenQA.Selenium.Support.UI;
+
+namespace SauceTest.Pages;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
@@ -6,15 +8,15 @@ using OpenQA.Selenium.Remote;
 /// <summary>
 /// A class that implements Page Object Pattern for this task.
 /// </summary>
-public class IndexPage
+public class LoginPage
 {
     private readonly IWebDriver driver;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IndexPage"/> class.
+    /// Initializes a new instance of the <see cref="LoginPage"/> class.
     /// </summary>
     /// <param name="driver">Driver that is used to load the page and interact with it.</param>
-    public IndexPage(IWebDriver driver) => this.driver = driver ?? throw new ArgumentNullException(nameof(driver));
+    public LoginPage(IWebDriver driver) => this.driver = driver ?? throw new ArgumentNullException(nameof(driver));
 
     private static string Url { get; } = "https://www.saucedemo.com/";
 
@@ -93,12 +95,6 @@ public class IndexPage
         var errorElement = this.driver.FindElement(By.TagName("h3"));
         return errorElement.Text;
     }
-
-    /// <summary>
-    /// Returns the current page's title.
-    /// </summary>
-    /// <returns>string representation of the page's current title.</returns>
-    public string GetTitle() => this.driver.Title;
 
     /// <summary>
     /// Closes the driver and, therefore, the page.
